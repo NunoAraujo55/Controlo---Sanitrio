@@ -13,10 +13,15 @@ DHT dht(DHTPIN, DHTTYPE);
 // —— Configurações do servo da janela——
 const int   servoPin     = 18;
 Servo        windowServo;
+
+//descomentar em caso de usar a temp para abrir as janelas.
+/*
 const float  TEMP_CLOSED  = 25.0;  // ≤25°C → janela fechada (0°)
 const float  TEMP_SEMI    = 28.0;  // ≤28°C → meio-aberta (90°)
 // >28°C → totalmente aberta (180°)
-
+*/
+int windowAngle  = 0;    
+int curtainAngle = 0;    
 
 const int  CO2_CLOSED = 1000;   // ≤1000 ppm → window closed (0°)
 const int  CO2_SEMI   = 2000;   // ≤2000 ppm → half-open (90°)
@@ -86,6 +91,7 @@ void onMqttMessage(char* topic, byte* payload, unsigned int len) {
                : co2 <= CO2_SEMI   ?  90
                                    : 180);
   windowServo.write(angle);
+  windowAngle = angle; 
 
   Serial.printf("CO₂: %.0f ppm → Servo %d°\n", co2, angle);
 }
@@ -201,6 +207,7 @@ if (flagB && millis() - timeB > FLAG_TIMEOUT) {
     // ambiente muito claro → feche totalmente
     digitalWrite(pinLED, HIGH); 
     curtainAngle = CURTAIN_LOW;
+    
   }
   else if (luxValue > 1200) {
     // claro moderado → meia-abertura 
@@ -218,11 +225,22 @@ if (flagB && millis() - timeB > FLAG_TIMEOUT) {
 
   // 4) Publicar via MQTT
   if (!isnan(h) && !isnan(t)) {
-    char payload[100];
+    char payload[150];
     snprintf(payload, sizeof(payload),
-      "{\"temperature\":%.1f,\"humidity\":%.1f,\"occupancy\":%d}",
-      t, h, peopleCount);
-    client.publish(topic_readings, payload);
+      "{\"temperature\":%.1f,"
+      "\"humidity\":%.1f,"
+      "\"occupancy\":%d,"
+      "\"windowAngle\":%d,"
+      "\"curtainAngle\":%d}", 
+      t, h, peopleCount, windowAngle, curtainAngle
+    ); 
+     client.publish(topic_readings, payload);
+    Serial.printf(
+      "Publish MQTT → T:%.1f°C  H:%.1f%%  Occ:%d  Janela:%d°  Cortina:%d°\n",
+      t, h, peopleCount, windowAngle, curtainAngle
+    );
+  }else {
+    Serial.println("Erro leitura DHT22, não publicando.");
   }
 
 
