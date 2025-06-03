@@ -1,0 +1,983 @@
+[
+    {
+        "id": "9b3ae38d54f4748e",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "20e42e5db02825d7",
+        "type": "mqtt in",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "topic": "IPB/IoT/Lab/AirQuality",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7e11e05f9ea7d1ee",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 220,
+        "wires": [
+            [
+                "9ec691e4982c45e8",
+                "ac0a7191c77e7537"
+            ]
+        ]
+    },
+    {
+        "id": "9c9ffb511d6e37e7",
+        "type": "mqtt in",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "topic": "IPB/IoT/Lab/ExternalNode",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7e11e05f9ea7d1ee",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 230,
+        "y": 900,
+        "wires": [
+            [
+                "3092932ba9ab633e",
+                "648a71501cd92a1b",
+                "0f588e375da5eb96"
+            ]
+        ]
+    },
+    {
+        "id": "3092932ba9ab633e",
+        "type": "debug",
+        "z": "9b3ae38d54f4748e",
+        "name": "debug 21",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "9ec691e4982c45e8",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 7",
+        "func": "msg.topic = \"environment\";\nmsg.payload = {\n  co2_eqv: msg.payload.co2_eqv\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 200,
+        "wires": [
+            [
+                "60be3d1b4ffe98e0"
+            ]
+        ]
+    },
+    {
+        "id": "ac0a7191c77e7537",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 8",
+        "func": "msg.topic = \"environment\";\nmsg.payload = {\n  iaq: msg.payload.iaq\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 260,
+        "wires": [
+            [
+                "60be3d1b4ffe98e0"
+            ]
+        ]
+    },
+    {
+        "id": "60be3d1b4ffe98e0",
+        "type": "influxdb out",
+        "z": "9b3ae38d54f4748e",
+        "influxdb": "58a198d022045512",
+        "name": "",
+        "measurement": "environment",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "AulaIOT",
+        "bucket": "Projeto",
+        "x": 690,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "e5fea8e61726406a",
+        "type": "mqtt in",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "topic": "home/esp32",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7e11e05f9ea7d1ee",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 350,
+        "y": 340,
+        "wires": [
+            [
+                "0d6a3a4738dfb4b4",
+                "60be3d1b4ffe98e0",
+                "4ee9aa55db15ff37",
+                "5d7676f7be42503e",
+                "f028592428d66eb6",
+                "19df0696c93437b9",
+                "8e1f40261c04eb3d",
+                "98edc16491ef5f5c"
+            ]
+        ]
+    },
+    {
+        "id": "0d6a3a4738dfb4b4",
+        "type": "debug",
+        "z": "9b3ae38d54f4748e",
+        "name": "debug 25",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "4ee9aa55db15ff37",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 10",
+        "func": "msg.payload = msg.payload.temperature;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 340,
+        "wires": [
+            [
+                "50656b420e31c27a"
+            ]
+        ]
+    },
+    {
+        "id": "50656b420e31c27a",
+        "type": "ui_gauge",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "group": "de201d7a0903d8ea",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "ºC",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "40",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 830,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "648a71501cd92a1b",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 12",
+        "func": "msg.payload = msg.payload.temperature;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 920,
+        "wires": [
+            [
+                "474017f314082812"
+            ]
+        ]
+    },
+    {
+        "id": "474017f314082812",
+        "type": "ui_gauge",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "group": "9006eab805b9cc62",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "ºC",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "40",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 650,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "5d7676f7be42503e",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 9",
+        "func": "msg.payload = msg.payload.occupancy;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 400,
+        "wires": [
+            [
+                "3f3e0066ba9ab92a",
+                "e7f8086ea38ab210"
+            ]
+        ]
+    },
+    {
+        "id": "3f3e0066ba9ab92a",
+        "type": "ui_gauge",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "group": "d78b1d82de3d23c2",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "donut",
+        "title": "Occupancy",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "6",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 810,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "f028592428d66eb6",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 11",
+        "func": "msg.payload = msg.payload.humidity;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 520,
+        "wires": [
+            [
+                "543f4f000a27c1ed"
+            ]
+        ]
+    },
+    {
+        "id": "543f4f000a27c1ed",
+        "type": "ui_gauge",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "group": "de201d7a0903d8ea",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 820,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "0f588e375da5eb96",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 13",
+        "func": "msg.payload = msg.payload.humidity;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 980,
+        "wires": [
+            [
+                "ef0479bdb09fa549"
+            ]
+        ]
+    },
+    {
+        "id": "ef0479bdb09fa549",
+        "type": "ui_gauge",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "group": "9006eab805b9cc62",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "ºC",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 640,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "85a5c9db0e659840",
+        "type": "influxdb in",
+        "z": "9b3ae38d54f4748e",
+        "influxdb": "58a198d022045512",
+        "name": "",
+        "query": "from(bucket: \"Projeto\")\n  |> range(start: -7d)\n  |> filter(fn: (r) =>\n    r._measurement == \"environment\" and\n    r._field == \"co2_eqv\"\n  )\n  |> aggregateWindow(\n      every: 1d,\n      fn: mean,\n      column: \"_value\",\n      createEmpty: false\n    )\n  |> yield(name: \"daily co2_eqv mean\")\n",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "AulaIOT",
+        "x": 450,
+        "y": 1380,
+        "wires": [
+            [
+                "ebef0d7bbd78b878",
+                "3bd8120d5a7d49f1"
+            ]
+        ]
+    },
+    {
+        "id": "ebef0d7bbd78b878",
+        "type": "debug",
+        "z": "9b3ae38d54f4748e",
+        "name": "debug 20",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 1320,
+        "wires": []
+    },
+    {
+        "id": "cc7bacc2105d94b0",
+        "type": "inject",
+        "z": "9b3ae38d54f4748e",
+        "name": "Poll CO₂ (last 7 d)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "3600",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 1380,
+        "wires": [
+            [
+                "85a5c9db0e659840"
+            ]
+        ]
+    },
+    {
+        "id": "3bd8120d5a7d49f1",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 14",
+        "func": "const pts = msg.payload;\nif (!Array.isArray(pts) || pts.length === 0) {\n  node.error(\"Expected msg.payload to be a non‐empty array of points\", msg);\n  return null;\n}\n\n// Build a single series name\nconst rawName = pts[0]._field || pts[0]._measurement || \"Series\";\nconst seriesName = rawName.replace(/_/g, \" \").replace(/\\b\\w/g, l => l.toUpperCase());\n\n// Turn each point into an { x: <ts>, y: <value> } object\nconst xyData = pts.map(p => ({\n  x: Date.parse(p._time),\n  y: p._value\n}));\n\n// Package it exactly like your example\nmsg.payload = [\n  {\n    series: [seriesName],  \n    data: [xyData],  \n    labels: [\"\"]          \n  }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 1420,
+        "wires": [
+            [
+                "43f0d9ceecbb7c30",
+                "3935ac495e36bfc7"
+            ]
+        ]
+    },
+    {
+        "id": "43f0d9ceecbb7c30",
+        "type": "ui_chart",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "group": "6c0c439cbf22ed20",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "CO2 ",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "auto",
+        "interpolate": "linear",
+        "nodata": "No data",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 830,
+        "y": 1420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3b6404278932f0a6",
+        "type": "ui_audio",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "group": "d78b1d82de3d23c2",
+        "voice": "Microsoft Helia - Portuguese (Portugal)",
+        "always": "",
+        "x": 1200,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "e7f8086ea38ab210",
+        "type": "switch",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "3",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 830,
+        "y": 460,
+        "wires": [
+            [
+                "ef734be595565ce7"
+            ]
+        ]
+    },
+    {
+        "id": "ef734be595565ce7",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 15",
+        "func": "// msg.payload is your occupancy count (>3)\n// change it into a sound‐file path or tone identifier\nmsg.payload = \"/home/pi/sounds/alert.wav\";  // ← point this at your .wav/.mp3\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 460,
+        "wires": [
+            [
+                "3b6404278932f0a6"
+            ]
+        ]
+    },
+    {
+        "id": "19df0696c93437b9",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 16",
+        "func": "// 1) grab the temp (assumes msg.payload is a number or msg.payload.temperature)\nlet temp = (typeof msg.payload === 'object')\n            ? msg.payload.temperature\n            : msg.payload;\n\n// 2) your desired set-point (or use flow.get('setpoint') if you store it in context)\nlet setpoint  = flow.get('acSetpoint') ?? 25;  \n\n// 3) optional hysteresis to avoid rapid toggling around the setpoint\nlet hysteresis = 0.5;  \n\n// 4) compute state\nlet state;\nif      (temp >  setpoint + hysteresis) state = 'Cooling';\nelse if (temp <  setpoint - hysteresis) state = 'Heating';\nelse                                    state = 'Idle';\n\n// 5) AC is “on” only when actively heating/cooling\nlet acOn = (state === 'Heating' || state === 'Cooling');\n\n// 6) attach to msg however you like:\nmsg.ac = {\n  on:    acOn, \n  state: acOn ? state : 'Off'\n};\n// if you also want to overwrite payload:\nmsg.payload = msg.ac.state;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 280,
+        "wires": [
+            [
+                "27b6adeb2f7cc960",
+                "8a460702a931e246"
+            ]
+        ]
+    },
+    {
+        "id": "27b6adeb2f7cc960",
+        "type": "ui_text",
+        "z": "9b3ae38d54f4748e",
+        "group": "d78b1d82de3d23c2",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "AC",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "{{msg.stateClass}}",
+        "style": true,
+        "font": "Arial,Arial,Helvetica,sans-serif",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 930,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "8a460702a931e246",
+        "type": "debug",
+        "z": "9b3ae38d54f4748e",
+        "name": "debug 22",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "3935ac495e36bfc7",
+        "type": "debug",
+        "z": "9b3ae38d54f4748e",
+        "name": "debug 23",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 1500,
+        "wires": []
+    },
+    {
+        "id": "0d55cd929d244648",
+        "type": "mqtt out",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "topic": "sensor/co2",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7e11e05f9ea7d1ee",
+        "x": 710,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "3c991c522e431b13",
+        "type": "mqtt in",
+        "z": "9b3ae38d54f4748e",
+        "name": "",
+        "topic": "IPB/IoT/Lab/AirQuality",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7e11e05f9ea7d1ee",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 1160,
+        "wires": [
+            [
+                "f7950da3f72fdfc0"
+            ]
+        ]
+    },
+    {
+        "id": "f7950da3f72fdfc0",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 17",
+        "func": "msg.topic = \"sensor/co2\";\nmsg.payload = msg.payload.co2_eqv;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1160,
+        "wires": [
+            [
+                "0d55cd929d244648",
+                "7daa3ccf0c8f1fe5"
+            ]
+        ]
+    },
+    {
+        "id": "7daa3ccf0c8f1fe5",
+        "type": "debug",
+        "z": "9b3ae38d54f4748e",
+        "name": "debug 26",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "8e1f40261c04eb3d",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 19",
+        "func": "var angle = msg.payload.curtainAngle;\n\n\nif (angle === 0) {\n    msg.payload = \"Baixa\";\n}\nelse if (angle === 90) {\n    msg.payload = \"Média\";\n}\nelse if (angle === 180) {\n    msg.payload = \"Baixa\";\n}\nelse {\n    msg.payload = \"Ângulo: \" + angle + \"°\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 700,
+        "wires": [
+            [
+                "c013f0bcdcba148b"
+            ]
+        ]
+    },
+    {
+        "id": "98edc16491ef5f5c",
+        "type": "function",
+        "z": "9b3ae38d54f4748e",
+        "name": "function 18",
+        "func": "var angle = msg.payload.windowAngle;\n\n\nif (angle === 0) {\n    msg.payload = \"Fechado\";\n}\nelse if (angle === 90) {\n    msg.payload = \"Semi aberta\";\n}\nelse if (angle === 180) {\n    msg.payload = \"Aberta\";\n}\nelse {\n    msg.payload = \"Ângulo: \" + angle + \"°\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 640,
+        "wires": [
+            [
+                "3982add5a3df954b"
+            ]
+        ]
+    },
+    {
+        "id": "3982add5a3df954b",
+        "type": "ui_text",
+        "z": "9b3ae38d54f4748e",
+        "group": "d78b1d82de3d23c2",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Janelas",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 860,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "c013f0bcdcba148b",
+        "type": "ui_text",
+        "z": "9b3ae38d54f4748e",
+        "group": "d78b1d82de3d23c2",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Curtinas",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 860,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "b4d4e84678d050c9",
+        "type": "ui_spacer",
+        "z": "9b3ae38d54f4748e",
+        "name": "spacer",
+        "group": "de201d7a0903d8ea",
+        "order": 2,
+        "width": 6,
+        "height": 1
+    },
+    {
+        "id": "381e7fdb6dcd6e87",
+        "type": "ui_spacer",
+        "z": "9b3ae38d54f4748e",
+        "name": "spacer",
+        "group": "d78b1d82de3d23c2",
+        "order": 2,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "b24bc5dc51eec163",
+        "type": "ui_spacer",
+        "z": "9b3ae38d54f4748e",
+        "name": "spacer",
+        "group": "d78b1d82de3d23c2",
+        "order": 7,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "82f82890b57a60b1",
+        "type": "ui_spacer",
+        "z": "9b3ae38d54f4748e",
+        "name": "spacer",
+        "group": "d78b1d82de3d23c2",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "33bc5852d172c276",
+        "type": "ui_spacer",
+        "z": "9b3ae38d54f4748e",
+        "name": "spacer",
+        "group": "9006eab805b9cc62",
+        "order": 2,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "7e11e05f9ea7d1ee",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.emqx.io",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "5",
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "58a198d022045512",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": 8086,
+        "protocol": "http",
+        "database": "database",
+        "name": "projeto",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://localhost:8086",
+        "timeout": 10,
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "de201d7a0903d8ea",
+        "type": "ui_group",
+        "name": "Inside",
+        "tab": "5c3e23cf119aca96",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9006eab805b9cc62",
+        "type": "ui_group",
+        "name": "Outside",
+        "tab": "5c3e23cf119aca96",
+        "order": 2,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d78b1d82de3d23c2",
+        "type": "ui_group",
+        "name": "Group 2",
+        "tab": "5c3e23cf119aca96",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6c0c439cbf22ed20",
+        "type": "ui_group",
+        "name": "Air Quality",
+        "tab": "5c3e23cf119aca96",
+        "order": 4,
+        "disp": true,
+        "width": 12,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5c3e23cf119aca96",
+        "type": "ui_tab",
+        "name": "Controlo Sanitário",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
