@@ -6,14 +6,19 @@ An intelligent sanitary control system developed for the Eng. Alcínio Miguel Au
 
 ## 📌 Table of Contents
 
+## 📌 Table of Contents
+
+## 📌 Table of Contents
+
 * [Description](#description)
 * [Features](#features)
 * [Architecture](#architecture)
 * [Equipment Used](#equipment-used)
 * [How to Run](#how-to-run)
 * [Node-RED Dashboard](#node-red-dashboard)
-* [Authors](#authors)
-* [License](#license)
+
+
+
 
 ---
 
