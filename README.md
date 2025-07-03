@@ -6,10 +6,6 @@ An intelligent sanitary control system developed for the Eng. Alcínio Miguel Au
 
 ## 📌 Table of Contents
 
-## 📌 Table of Contents
-
-## 📌 Table of Contents
-
 * [Description](#description)
 * [Features](#features)
 * [Architecture](#architecture)
